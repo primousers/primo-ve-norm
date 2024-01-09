@@ -1,0 +1,13 @@
+Use case: This norm rule can be used to ... 
+
+Generic Example:
+rule "Rule Name" 
+when
+
+exist
+
+then
+
+end
+
+Repository Specific Example:
