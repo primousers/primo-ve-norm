@@ -1,24 +1,10 @@
 This norm rule can be used to limit a field to the first 50 words. 
 
-Generic Example
-rule "Limit field to first 50 words" 
-  When
-  exist 
-  Then
-End
-
-Primo VE Example:
-
+Generic Example:
 rule "Limit Description field to only the First 50 words"
 when
 exist "//*[local-name()='description']"
 then
 copy "substring(normalize-space(//*[local-name()='description']),0,string-length(normalize-space(//*[local-name()='description']))-string-length(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(substring-after(normalize-space(//*[local-name()='description']),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '),' '))+1)" to "dc"."description"
 end
-
-DSpace Example
-Use Case: Limits the display of the abstract to the first 50 words. 
-
-IslandDor Example:
-
 
