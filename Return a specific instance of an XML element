@@ -38,7 +38,7 @@ application
 pdf
 PDF
 
-If you wanted to return only the first, non double-value entry, you can add an entry value [n] (starting with 1 for the first value) to select the appropriate value:
+If you wanted to return only the first, non double-value entry ("application"), you can add an entry value [n] (starting with 1 for the first value) to select the appropriate value:
 
 rule "Format"
 when
