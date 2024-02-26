@@ -1,0 +1,63 @@
+This rule can be used to return both Time-stamped and non Time-stamped Date values:
+
+Example: a record contains two (2) date elements:
+
+<dc:date>2024-01-01T08:00:00Z</dc:date>
+<dc:date>2023-12-31</dc:date>
+
+Using this basic rule:
+
+rule "Date"
+when
+exist "//*[local-name()='date']"
+then
+copy "//*[local-name()='date']/." to "dc"."date"
+end
+
+Will return the following values:
+
+2024-01-01T08:00:00Z
+2023-12-31
+
+It has been determined that the non Time-stamped value is the correct value to import.
+
+Use the following rule:
+
+rule "Date No Timestamp"
+when
+exist "//*[local-name()='date']"
+then
+copy "//*[local-name()='date'][not(contains(text(),'T'))]" to "dc"."date"
+end
+
+This will return only:
+
+2023-12-31
+
+If you want the Time-stamped value instead, use this rule:
+
+rule "Date Timestamp"
+when
+exist "//*[local-name()='date']"
+then
+copy "//*[local-name()='date'][contains(text(),'T')]" to "dc"."date"
+end
+
+This will return:
+
+2024-01-01T08:00:00Z
+
+However, if you want to return the simplified version of the Time-stamped value, use the following rule to only include the portion of the date prior to the "T" (e.g. 2024-01-01)
+
+rule "Date Timestamp Simple"
+when
+exist "//*[local-name()='date'][contains(text(),'T')]"
+then
+copy "substring-before(//*[local-name()='date'][contains(text(),'T')],'T')" to "dc"."date"
+end
+
+This will return:
+
+2024-01-01
+
+You can replace the second "T" in the above rule to change what character to end the "Date" value with. Swapping 'T' with '-' will return "2024" as the "Date" value
