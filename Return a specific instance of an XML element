@@ -1,0 +1,50 @@
+This rule can be used to select a certain instance of an element to return.
+
+Example: A record has four (4) <dc:format> elements,
+
+<dc:format>application/pdf</dc:format>
+<dc:format>application</dc:format>
+<dc:format>pdf</dc:format>
+<dc:format>PDF</dc:format>
+
+Using this basic rule:
+
+rule "Format"
+when
+exist "//*[local-name()='format']"
+then
+copy "//*[local-name()='format']/." to "dc"."format"
+end
+
+Will return the following values:
+
+application/pdf
+application
+pdf
+PDF
+
+If you didn't want to include entries with two (2) values (e.g. "application/pdf"), you can use this rule:
+
+rule "Format"
+when
+exist "//*[local-name()='format']"
+then
+copy "//*[local-name()='format'][not(contains(text(),'/'))]" to "dc"."format"
+end
+
+This will return:
+
+application
+pdf
+PDF
+
+If you wanted to return only the first, non double-value entry, you can add an entry value [n] (starting with 1 for the first value) to select the appropriate value:
+
+rule "Format"
+when
+exist "//*[local-name()='format']"
+then
+copy "//*[local-name()='format'][not(contains(text(),'/'))][1]" to "dc"."format"
+end
+
+This can be used to specify the return of any XML element, not just "format"
