@@ -1,0 +1,28 @@
+rule "copy dc identifier"
+
+###################################################
+#
+#   Rule to copy the contents of <dc:identifier> tag to "dc"."identifier"
+#
+###################################################
+
+when
+	true
+then
+	copy "//*[starts-with(name(), 'dc')][contains(name(), 'identifier')]/text()" to "dc"."identifier"
+end
+
+
+rule "copy identifier"
+
+###################################################
+#
+#   Rule to copy the contents of tag named <identifier> but not to <dc:identifier> to "dc"."identifier"
+#
+###################################################
+
+when
+	true
+then
+	copy "//*[not(starts-with(name(), 'dc')) and contains(name(), 'identifier')]/text()" to "dc"."identifier"
+end
