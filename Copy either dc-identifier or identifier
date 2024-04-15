@@ -1,28 +1,51 @@
-rule "copy dc identifier"
+USE CASE: Select and copy either <dc:identifier> or the header <identifier> to "dc"."identifier"
 
-###################################################
-#
-#   Rule to copy the contents of <dc:identifier> tag to "dc"."identifier"
-#
-###################################################
+EXAMPLE RECORD:
 
-when
-	true
-then
-	copy "//*[starts-with(name(), 'dc')][contains(name(), 'identifier')]/text()" to "dc"."identifier"
-end
+	<record xmlns="http://www.openarchives.org/OAI/2.0/"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
+		http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+		<header>
+			<identifier>IDENTIFIER 1</identifier>
 
+		</header>
+		<metadata>
+			<oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+				xmlns:dc="http://purl.org/dc/elements/1.1/"
+				xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/
+				http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
 
-rule "copy identifier"
+				<dc:identifier>IDENTIFIER2</dc:identifier>
+		
+			</oai_dc:dc>
+		</metadata>
+	</record>
 
-###################################################
-#
-#   Rule to copy the contents of tag named <identifier> but not to <dc:identifier> to "dc"."identifier"
-#
-###################################################
+RULE TO COPY DC:IDENTIFIER:
 
-when
-	true
-then
-	copy "//*[not(starts-with(name(), 'dc')) and contains(name(), 'identifier')]/text()" to "dc"."identifier"
-end
+	rule "copy dc:identifier"
+		when
+			true
+		then
+			copy "//*[starts-with(name(), 'dc')][contains(name(), 'identifier')]/text()" to "dc"."identifier"
+		end
+
+WILL RETURN: 
+
+	<dc:identifier>IDENTIFIER2</dc:identifier>
+	
+RULE TO COPY HEADER IDENTIFIER:
+
+	rule "copy header <identifier>"
+		when
+			true
+		then
+			copy "//*[not(starts-with(name(), 'dc')) and contains(name(), 'identifier')]/text()" to "dc"."identifier"
+		end
+
+WILL RETURN:
+
+	<dc:relation>Text en català</dc:relation>
+	
+*This rule was contributed by https://github.com/mwan-work through the following issue: https://github.com/primousers/primo-ve-norm/issues/2
