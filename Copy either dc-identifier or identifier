@@ -16,7 +16,7 @@ EXAMPLE RECORD:
 				xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/
 				http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
 
-				<dc:identifier>IDENTIFIER2</dc:identifier>
+				<dc:identifier>IDENTIFIER 2</dc:identifier>
 		
 			</oai_dc:dc>
 		</metadata>
@@ -33,7 +33,7 @@ RULE TO COPY DC:IDENTIFIER:
 
 WILL RETURN: 
 
-	<dc:identifier>IDENTIFIER2</dc:identifier>
+	<dc:identifier>IDENTIFIER 2<dc:identifier>
 	
 RULE TO COPY HEADER IDENTIFIER:
 
@@ -46,6 +46,6 @@ RULE TO COPY HEADER IDENTIFIER:
 
 WILL RETURN:
 
-	<dc:relation>Text en català</dc:relation>
+	<dc:identifier>IDENTIFIER 1<dc:identifier>
 	
 *This rule was contributed by https://github.com/mwan-work through the following issue: https://github.com/primousers/primo-ve-norm/issues/2
