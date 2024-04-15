@@ -1,0 +1,46 @@
+USE CASE: Normalise Austlang codes to "lang.xxx.[#,x]" ensuring 'aus' and other languages are copied
+
+EXAMPLE RECORD: A record contains the following dc:language elements with different language attributes.
+
+	<dc:language>en</dc:language>
+	<dc:language>aus</dc:language>
+	<dc:language type="austlang">N116.S</dc:language>
+			
+				OR
+
+	<dc:language>en</dc:language>
+	<dc:language type="austlang">N116.S</dc:language>
+
+USING THESE THREE RULE COMBINDED:
+
+	rule "1: Copy dc:language"
+	when
+	exist "//*[local-name()='language']/text()" 
+	then
+	copy "//*[local-name()='language'][not(@type='austlang')]/text()" to "dc"."language"
+	end
+
+	rule "2: normalise Austlang code"
+	when
+	exist "//*[local-name()='language'][@type='austlang']/text()" 
+	then
+	set TEMP"1" to xpath "//*[local-name()='language'][@type='austlang']/text()"
+	add prefix (TEMP"1","lang.")
+	lower case (TEMP"1")
+	set TEMP"1" in "dc"."language"
+	end
+
+	rule "3: if 'austlang', add 'aus' if not already present"
+	when 
+	"//*[local-name()='language']/text()" not equals "aus" AND exist "//*[local-name()='language'][@type='austlang']/text()" 
+	then
+	set "AUS" in "dc"."language"
+	end
+
+WILL RETURN (FOR BOTH EXAMPLES):
+
+	<dc:language>lang.n116.s</dc:language>
+	<dc:language>en</dc:language>
+	<dc:language>aus</dc:language>
+	
+*This rule was contributed by https://github.com/LincolnUniLTL through the following issue: https://github.com/primousers/primo-ve-norm/issues/?
