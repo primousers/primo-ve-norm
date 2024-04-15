@@ -11,7 +11,7 @@ EXAMPLE RECORD: A record contains the following dc:language elements with differ
 	<dc:language>en</dc:language>
 	<dc:language type="austlang">N116.S</dc:language>
 
-USING THESE THREE RULE COMBINDED:
+USING THESE THREE RULES COMBINDED:
 
 	rule "1: Copy dc:language"
 	when
