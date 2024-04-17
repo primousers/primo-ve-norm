@@ -9,9 +9,9 @@ EXAMPLE RECORD: A record contains the following dc:language elements with differ
 				OR
 
 	<dc:language>en</dc:language>
-	<dc:language type="austlang">N116.S</dc:language>
+	<dc:subject>Miliwuru language N116.S</dc:subject>
 
-USING THESE THREE RULES COMBINDED:
+USING THESE FOUR RULES COMBINDED:
 
 	rule "1: Copy dc:language"
 	when
@@ -30,11 +30,22 @@ USING THESE THREE RULES COMBINDED:
 	set TEMP"1" in "dc"."language"
 	end
 
-	rule "3: if 'austlang', add 'aus' if not already present"
+	rule "3: Contains Austlang in subject"
 	when 
-	"//*[local-name()='language']/text()" not equals "aus" AND exist "//*[local-name()='language'][@type='austlang']/text()" 
+	exist "//*[local-name()='subject'][contains(text(),'language')]" AND not exist "//*[local-name()='language'][@type='austlang']/text()"
 	then
-	set "AUS" in "dc"."language"
+	set TEMP"1" to xpath "//*[local-name()='subject'][contains(text(),'language')]/text()"
+    remove substring using regex (TEMP"1","(.*language.)")
+	add prefix (TEMP"1","lang.")
+	lower case (TEMP"1")
+	set TEMP"1" in "dc"."language"
+	end
+	
+	rule "4: if any austlang tag present, add 'aus' if not already present"
+	when 
+	"//*[local-name()='language']/text()" not equals "aus" AND (exist "//*[local-name()='language'][@type='austlang']/text()" OR exist "//*[local-name()='subject'][contains(text(),'language')]")
+	then
+	set "aus" in "dc"."language"
 	end
 
 WILL RETURN (FOR BOTH EXAMPLES):
