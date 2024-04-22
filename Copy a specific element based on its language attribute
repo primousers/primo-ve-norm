@@ -1,31 +1,31 @@
-Use case: This norm rule can be used to copy a specific element based on its language attribute 
+USE CASE: This norm rule can be used to copy a specific element based on its language attribute 
 
-Example: A record contains multiple dc:source elements with different language attributes.
+EXAMPLE RECORD: A record contains multiple dc:source elements with different language attributes.
 
-<dc:source xml:lang="ca-ES">Text en català</dc:source>
-<dc:source xml:lang="es-ES">Texto en castellano</dc:source>
-<dc:source xml:lang="en-US">Text in english</dc:source>
+	<dc:source xml:lang="ca-ES">Text en català</dc:source>
+	<dc:source xml:lang="es-ES">Texto en castellano</dc:source>
+	<dc:source xml:lang="en-US">Text in english</dc:source>
 
-Using this basic rule:
+USING THIS BASIC RULE:
 
-rule "Copy a specific element based on its language attribute"
-when
-exist "//*[local-name()='source'][@xml:lang='ca-ES']"
-then
-copy "//*[local-name()='source'][@xml:lang='ca-ES']/text()" to "dc"."relation"
-end
+	rule "Copy a specific element based on its language attribute"
+	when
+	exist "//*[local-name()='source'][@xml:lang='ca-ES']"
+	then
+	copy "//*[local-name()='source'][@xml:lang='ca-ES']/text()" to "dc"."relation"
+	end
 
-Will return:
+WILL RETURN:
 
-<dc:relation>Text en català</dc:relation>
+	<dc:relation>Text en català</dc:relation>
 
 *While this example uses the language attribute the rule can be adapted for other attributes. Here is a generic version of the rule that can be adapted.
 
-rule "Copy element based on attribute to dc element" 
-when
-exist "//*[local-name()='element'][@xml:attribute='value']"
-then
-copy "//*[local-name()='element'][@xml:attribute='value']/text()" to "dc"."element"
-end
+	rule "Copy element based on attribute to dc element" 
+	when
+	exist "//*[local-name()='element'][@xml:attribute='value']"
+	then
+	copy "//*[local-name()='element'][@xml:attribute='value']/text()" to "dc"."element"
+	end
 
 *This rule was contributed by https://github.com/pmasotagne through the following issue: https://github.com/primousers/primo-ve-norm/issues/1 
