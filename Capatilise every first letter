@@ -1,0 +1,67 @@
+USE CASE: Capatilise first letter of each word in a given string. 
+
+EXAMPLE RECORD: A record contains the following dc:creator element.
+
+	EXAMPLE 1:
+		<dc:creator>JOHN SMITH</dc:creator>
+		
+	EXAMPLE 2:
+		<dc:creator>mary ann smith</dc:creator>
+		
+	EXAMPLE 3:	
+		<dc:creator>thomas SMITH-jones</dc:creator>
+	
+COPY THIS RULE FOR EACH AUTHOR ([1],[2] ... [x]):	
+	
+rule "Title Case"
+	when
+	  exist "//*[local-name()='creator'][1]"
+	then
+
+	  set TEMP"1" to xpath "//*[local-name()='creator'][1]"
+	  lower case (TEMP"1")
+
+	  #The below uses regex that will replace lower case letter with upper case at the beginnining of each word.
+	  replace string by string (TEMP"1","\\ba","A")
+	  replace string by string (TEMP"1","\\bb","B")
+	  replace string by string (TEMP"1","\\bc","C")
+	  replace string by string (TEMP"1","\\bd","D")
+	  replace string by string (TEMP"1","\\be","E")
+	  replace string by string (TEMP"1","\\bf","F")
+	  replace string by string (TEMP"1","\\bg","G")
+	  replace string by string (TEMP"1","\\bh","H")
+	  replace string by string (TEMP"1","\\bi","I")
+	  replace string by string (TEMP"1","\\bj","J")
+	  replace string by string (TEMP"1","\\bk","K")
+	  replace string by string (TEMP"1","\\bl","L")
+	  replace string by string (TEMP"1","\\bm","M")
+	  replace string by string (TEMP"1","\\bn","N")
+	  replace string by string (TEMP"1","\\bo","O")
+	  replace string by string (TEMP"1","\\bp","P")
+	  replace string by string (TEMP"1","\\bq","Q")
+	  replace string by string (TEMP"1","\\br","R")
+	  replace string by string (TEMP"1","\\bs","S")
+	  replace string by string (TEMP"1","\\bt","T")
+	  replace string by string (TEMP"1","\\bu","U")
+	  replace string by string (TEMP"1","\\bv","V")
+	  replace string by string (TEMP"1","\\bw","W")
+	  replace string by string (TEMP"1","\\bx","X")
+	  replace string by string (TEMP"1","\\by","Y")
+	  replace string by string (TEMP"1","\\bz","Z")
+
+	  set TEMP"1" in "dc"."creator"
+
+end
+
+WILL RETURN (for each example):
+
+	EXAMPLE 1:
+		<dc:creator>John Smith</dc:creator>
+		
+	EXAMPLE 2:
+		<dc:creator>Mary Ann Smith</dc:creator>
+		
+	EXAMPLE 3:	
+		<dc:creator>Thomas Smith-Jones</dc:creator>
+
+*This rule was contributed by https://github.com/mwan-work through the following issue: https://github.com/primousers/primo-ve-norm/issues/18
