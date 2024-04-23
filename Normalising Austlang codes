@@ -13,40 +13,48 @@ EXAMPLE RECORD: A record contains the following dc:language elements with differ
 
 USING THESE FOUR RULES COMBINDED:
 
-	rule "1: Copy dc:language"
-	when
-	exist "//*[local-name()='language']/text()" 
-	then
-	copy "//*[local-name()='language'][not(@type='austlang')]/text()" to "dc"."language"
-	end
+rule "1: Copy dc:language (not 'aus' as added in rule 3 or 4) - see below for example result"
+ when
+	"//*[local-name()='language'][1]/text()" not equals "aus" AND exist "//*[local-name()='language'][not(@type='austlang')][1]/text()"
+  then
+	set TEMP"1" to xpath "//*[local-name()='language'][not(@type='austlang')][1]/text()"
+	add prefix (TEMP"1","lang.")
+	lower case (TEMP"1")
+	set TEMP"1" in "dc"."language"
+ end
 
-	rule "2: normalise Austlang code"
-	when
+rule "2: Copy dc:language (if second language - not 'aus')"
+ when
+	"//*[local-name()='language'][2]/text()" not equals "aus" AND exist "//*[local-name()='language'][not(@type='austlang')][2]/text()"
+ then
+	set TEMP"1" to xpath "//*[local-name()='language'][not(@type='austlang')][2]/text()"
+	add prefix (TEMP"1","lang.")
+	lower case (TEMP"1")
+	set TEMP"1" in "dc"."language"
+ end
+
+rule "3: normalise Austlang code"
+ when
 	exist "//*[local-name()='language'][@type='austlang']/text()" 
-	then
+ then
 	set TEMP"1" to xpath "//*[local-name()='language'][@type='austlang']/text()"
 	add prefix (TEMP"1","lang.")
 	lower case (TEMP"1")
 	set TEMP"1" in "dc"."language"
-	end
+    set "lang.aus" in "dc"."language"
+ end
 
-	rule "3: Contains Austlang in subject"
-	when 
+rule "4: Contains Austlang in subject"
+ when 
 	exist "//*[local-name()='subject'][contains(text(),'language')]" AND not exist "//*[local-name()='language'][@type='austlang']/text()"
-	then
+ then
 	set TEMP"1" to xpath "//*[local-name()='subject'][contains(text(),'language')]/text()"
     remove substring using regex (TEMP"1","(.*language.)")
 	add prefix (TEMP"1","lang.")
 	lower case (TEMP"1")
 	set TEMP"1" in "dc"."language"
-	end
-	
-	rule "4: if any austlang tag present, add 'aus' if not already present"
-	when 
-	"//*[local-name()='language']/text()" not equals "aus" AND (exist "//*[local-name()='language'][@type='austlang']/text()" OR exist "//*[local-name()='subject'][contains(text(),'language')]")
-	then
-	set "aus" in "dc"."language"
-	end
+    set "lang.aus" in "dc"."language"
+ end
 
 WILL RETURN (FOR BOTH EXAMPLES):
 
