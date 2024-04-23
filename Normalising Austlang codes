@@ -14,14 +14,14 @@ EXAMPLE RECORD: A record contains the following dc:language elements with differ
 USING THESE FOUR RULES COMBINDED:
 
 rule "1: Copy dc:language (not 'aus' as added in rule 3 or 4) - see below for example result"
- when
+  when
 	"//*[local-name()='language'][1]/text()" not equals "aus" AND exist "//*[local-name()='language'][not(@type='austlang')][1]/text()"
   then
 	set TEMP"1" to xpath "//*[local-name()='language'][not(@type='austlang')][1]/text()"
 	add prefix (TEMP"1","lang.")
 	lower case (TEMP"1")
 	set TEMP"1" in "dc"."language"
- end
+  end
 
 rule "2: Copy dc:language (if second language - not 'aus')"
  when
@@ -41,7 +41,7 @@ rule "3: normalise Austlang code"
 	add prefix (TEMP"1","lang.")
 	lower case (TEMP"1")
 	set TEMP"1" in "dc"."language"
-    set "lang.aus" in "dc"."language"
+    	set "lang.aus" in "dc"."language"
  end
 
 rule "4: Contains Austlang in subject"
@@ -49,11 +49,11 @@ rule "4: Contains Austlang in subject"
 	exist "//*[local-name()='subject'][contains(text(),'language')]" AND not exist "//*[local-name()='language'][@type='austlang']/text()"
  then
 	set TEMP"1" to xpath "//*[local-name()='subject'][contains(text(),'language')]/text()"
-    remove substring using regex (TEMP"1","(.*language.)")
+    	remove substring using regex (TEMP"1","(.*language.)")
 	add prefix (TEMP"1","lang.")
 	lower case (TEMP"1")
 	set TEMP"1" in "dc"."language"
-    set "lang.aus" in "dc"."language"
+    	set "lang.aus" in "dc"."language"
  end
 
 WILL RETURN (FOR BOTH EXAMPLES):
