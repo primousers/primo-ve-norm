@@ -1,0 +1,33 @@
+USE CASE: "Take from first occurrence" of a field.
+
+EXAMPLE RECORD: A record contains the following dc:type elements.
+
+<dc:type>Dataset</dc:type>
+<dc:type>Preprint</dc:type>
+<dc:type>info:eu-repo/semantics/article</dc:type>
+<dc:type>info:eu-repo/semantics/publishedVersion</dc:type>
+
+USING THESE RULES:
+
+rule "Select first dc:type variable"
+when
+exist "//[local-name()='type]/text()"
+then
+copy "//[local-name()='type'][1]/text()" to "dc"."type"
+end
+
+rule "Move sebsequent dc:type fileds to dcterms:alternative"
+when
+exist "//[local-name()='type'][position()>1]/text()"
+then
+copy "//[local-name()='type'][position()>1]/text()" to "dcterms"."alternative"
+end
+
+WILL RETURN:
+
+<dcterms:alternative>	Preprint 
+<dcterms:alternative>	info:eu-repo/semantics/article 
+<dcterms:alternative>	info:eu-repo/semantics/publishedVersion 
+<dc:type>	Dataset
+	
+*This rule was contributed by Lori Stethers (https://github.com/lstethers/primove-normrules/blob/main/presentation-files/2024-ELUNA-Creating%20Primo%20VE%20Normalization%20Rules%20for%20External%20Data%20Sources-%20sm.pdf) through the following issue: https://github.com/primousers/primo-ve-norm/issues/10
