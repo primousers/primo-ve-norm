@@ -1,0 +1,22 @@
+USE CASE: Check that a string exists in a DC field.
+
+EXAMPLE RECORD: A record contains one of the following dc:type elements (other variations can apply):
+
+<dc:identifier>Main Library</dc:identifier> or 
+<dc:identifier>University of X - Main Library</dc:identifier> or 
+<dc:identifier>MAIN</dc:identifier>
+
+USING THIS RULE:
+
+rule "Main"
+when
+  exist "//*[local-name()='identifier'][contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'main')]
+then
+  set "Main Library" in "discovery"."local14"
+end
+
+WILL RETURN:
+
+<discovery:local14> Main Library
+
+This rule was contributed by mwan-work (https://github.com/mwan-work) through the following issue: https://github.com/primousers/primo-ve-norm/issues/15
