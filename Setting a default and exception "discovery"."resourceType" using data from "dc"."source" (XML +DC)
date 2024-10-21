@@ -1,0 +1,44 @@
+USE CASE: Setting a default and exception "discovery"."resourceType" using data from "dc"."source"
+
+EXAMPLE RECORD: A record contains the following dc:type element:
+
+<dc:source>Masters Theses and Doctoral Dissertations</dc:source>
+
+USING THESE RULES (XML):
+
+rule "theses and dissertations in scholar"
+when
+"//*[local-name()='source']/text()" equals "Masters Theses and Doctoral Dissertations"
+then
+set "dissertations" in "discovery"."resourceType"
+end
+
+rule "default all other archival materials"
+when
+"//*[local-name()='source']/text()" not equals "Masters Theses and Doctoral Dissertations"
+then
+set "Archival Material" in "discovery"."resourceType"
+end
+
+EQUVLAENT DC RULES
+
+rule "theses and dissertations in scholar"
+when
+"dc"."source" equals "Masters Theses and Doctoral Dissertations"
+then
+set "dissertations" in "discovery"."resourceType"
+end
+
+rule "all other archival materials"
+when
+"dc"."source" not equals "Masters Theses and Doctoral Dissertations"
+then
+set "Archival Material" in "discovery"."resourceType"
+end
+
+WILL RETURN:
+
+<discovery.resourcetype>  dissertations
+
+* The DC rules were contributed by https://github.com/alsalatkajr through the following issues: https://github.com/primousers/primo-ve-norm/issues/24 and https://github.com/primousers/primo-ve-norm/issues/25
+* The XML rules were contributed by https://github.com/LincolnUniLTL through the following issues: https://github.com/primousers/primo-ve-norm/issues/24 and https://github.com/primousers/primo-ve-norm/issues/25
