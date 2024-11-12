@@ -1,0 +1,21 @@
+USE CASE: "Take from first occurrence" of a field.
+
+EXAMPLE RECORD: A record contains the following dc:type elements.
+
+<dc:type>Dataset</dc:type>
+<dc:type>Preprint</dc:type>
+
+USING THIS RULES:
+
+rule "copy last type"
+when
+	true
+then
+	copy "//*[name()='dc:type'][last()]" to "dc"."type"
+end
+
+WILL RETURN:
+
+<dc:type>Preprint</dc:type>
+	
+*This rule was contributed by [mwan-work](https://github.com/mwan-work) through the following issue: https://github.com/primousers/primo-ve-norm/issues/17
