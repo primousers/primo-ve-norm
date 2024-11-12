@@ -1,0 +1,20 @@
+USE CASE: Move "dc"."coverage" to "dc"."subject"
+
+EXAMPLE RECORD: A record contains the following dc:type elements.
+
+<dc:coverage>Cretaceous period</dc:coverage>
+
+USING THIS RULE:
+
+rule "move coverage to subject"
+when
+exist "//[local-name()='coverage']/text()"
+then
+copy "//[local-name()='coverage']/text()" to "dc"."subject"
+end
+
+WILL RETURN:
+
+<dc:subject>Cretaceous period</dc:subject>
+	
+*This rule was contributed by alsalatkajr (https://github.com/alsalatkajr) through the following issue: https://github.com/primousers/primo-ve-norm/issues/29
