@@ -1,4 +1,4 @@
-USE CASE: Move "dc"."coverage" to "dc"."subject"
+USE CASE: Moving values between fields. For example, move "dc"."coverage" to "dc"."subject"
 
 EXAMPLE RECORD: A record contains the following dc:type elements.
 
@@ -17,4 +17,4 @@ WILL RETURN:
 
 <dc:subject>Cretaceous period</dc:subject>
 	
-*This rule was contributed by alsalatkajr (https://github.com/alsalatkajr) through the following issue: https://github.com/primousers/primo-ve-norm/issues/29
+*This rule was contributed by alsalatkajr (https://github.com/alsalatkajr) through the following issues: https://github.com/primousers/primo-ve-norm/issues/26 and https://github.com/primousers/primo-ve-norm/issues/29
