@@ -1,0 +1,28 @@
+USE CASE: Replace string by string
+
+EXAMPLE RECORD: A record contains the following dc:type elements.
+
+<record>
+    <header>
+        <identifier>objects-12345</identifier>
+        <datestamp>2021-07-15T11:52:45Z</datestamp>
+        <setSpec>lr:EDT</setSpec>
+    </header>
+...
+</record>
+
+rule "source"​
+when​
+  true​
+then​
+  set TEMP"1" to xPath "//[local-name()='record']/[local-name()='header']/*[name()='identifier']" ​
+  replace string by string (TEMP"1","^objects-","https://blockmuseum.emuseum.com/objects/")​
+  set TEMP"1" in "dc"."source"​
+end
+
+WILL RETURN:
+
+<dc:source>https://blockmuseum.emuseum.com/objects/12345</dc:source>
+	
+*This rule was contributed here, with approval, by Alice Tippit, based on her 2024 ELUNA presentation,presentation included a rule example for "replace string by string":
+rule "source"​ through the following issue: PrimoBO: Replace string by string (https://github.com/primousers/primo-ve-norm/issues/19)
