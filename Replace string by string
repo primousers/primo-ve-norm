@@ -15,7 +15,7 @@ rule "source"​
 when​
   true​
 then​
-  set TEMP"1" to xPath "//[local-name()='record']/[local-name()='header']/*[name()='identifier']" ​
+  set TEMP"1" to xPath "//*[local-name()='record']/*[local-name()='header']/*[name()='identifier']" ​
   replace string by string (TEMP"1","^objects-","https://blockmuseum.emuseum.com/objects/")​
   set TEMP"1" in "dc"."source"​
 end
