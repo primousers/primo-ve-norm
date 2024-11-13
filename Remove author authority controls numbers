@@ -1,0 +1,43 @@
+USE CASE: Remove author authority controls numbers
+I have an OAI import that has contains author authority controls numbers. I need a rule to remove these brackets and numbers.
+
+<dc:creator>Suphicha Muangsri (6926357)</dc:creator>
+<dc:creator>Wendy McWilliam</dc:creator>
+<dc:creator>Tim Davies (13927464)</dc:creator>
+
+USING THESE RULES (One rule for each author in your import file):
+
+rule "Truncate author authority controls numbers"
+when
+exist "//[name()='dc:creator'][1]"
+then
+set TEMP"1" to xPath "//[name()='dc:creator'][1]"
+remove substring using regex (TEMP"1","\\([0-9]*\\)")
+set TEMP"1" in "dc"."creator"
+end
+
+rule "Truncate author authority controls numbers[2]"
+when
+exist "//[name()='dc:creator'][2]"
+then
+set TEMP"1" to xPath "//[name()='dc:creator'][2]"
+remove substring using regex (TEMP"1","\\([0-9]*\\)")
+set TEMP"1" in "dc"."creator"
+end
+
+rule "Truncate author authority controls numbers[3]"
+when
+exist "//[name()='dc:creator'][3]"
+then
+set TEMP"1" to xPath "//[name()='dc:creator'][3]"
+remove substring using regex (TEMP"1","\\([0-9]*\\)")
+set TEMP"1" in "dc"."creator"
+end
+
+WILL RETURN:
+
+<dc:creator>Tim Davies</dc:creator>
+<dc:creator>Wendy McWilliam</dc:creator>
+<dc:creator>Suphicha Muangsri</dc:creator>
+
+*This rule was contributed by https://github.com/LincolnUniLTL through the following issue: https://github.com/primousers/primo-ve-norm/issues/9
