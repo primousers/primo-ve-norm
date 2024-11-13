@@ -25,4 +25,4 @@ WILL RETURN:
 <dc:source>https://blockmuseum.emuseum.com/objects/12345</dc:source>
 	
 *This rule was contributed here, with approval, by Alice Tippit, based on her 2024 ELUNA presentation,presentation included a rule example for "replace string by string":
-rule "source"​ through the following issue: PrimoBO: Replace string by string (https://github.com/primousers/primo-ve-norm/issues/19)
+rule "source"​ through the following issue: PrimoBO: Replace string by string (https://github.com/primousers/primo-ve-norm/issues/14)
