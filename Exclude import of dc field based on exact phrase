@@ -1,0 +1,32 @@
+USE CASE: Exclude import of dc field based on exact phrase. For example, Collection Areas in ArchivesSpace import under "dc"."publisher" and did not need to be configured for display.
+
+EXAMPLE RECORD: A record contains the following dc elements.
+
+<dc:language>This collection contains materials in English.</dc:language>
+<dc:language>English</dc:language>
+
+<dc:publisher>Chattanooga History Collections</dc:publisher>
+<dc:publisher>Chattanooga Publishing Company</dc:publisher>
+
+USING THESE RULES:
+
+rule "Import Language"
+when
+  exist "//*[local-name()='language']"
+then
+  copy "//*[local-name()='language'][not(contains(text(),'This collection contains materials in English.'))]" to "dc"."language"
+end
+
+rule "Import publisher"
+when
+  exist "//*[local-name()='publisher']"
+then
+  copy "//*[local-name()='publisher'][not(contains(text(),'Chattanooga History Collections'))]" to "dc"."publisher"
+end
+
+WILL RETURN:
+<dc:language>English</dc:language>
+<dc:publisher>Chattanooga Publishing Company</dc:publisher>
+
+*This rule can be used as a template to exclude import of other dc fields.
+*This rule was contributed by alsalatkajr (https://github.com/alsalatkajr) through the following issues: https://github.com/primousers/primo-ve-norm/issues/28 and https://github.com/primousers/primo-ve-norm/issues/30
