@@ -1,4 +1,6 @@
 USE CASE: Replace string by string
+This rule, stores the identifier value into TEMP 1 and then uses "replace string by string" to find a regex string pattern (^objects-) and do a find and replace on the string matching the regex. '^objects-' is replaced by "https://blockmuseum.emuseum.com/objects/"
+For example, if the identifier is 'objects-12345', it will be replaced with "https://blockmuseum.emuseum.com/objects/12345"
 
 EXAMPLE RECORD: A record contains the following dc:type elements.
 
