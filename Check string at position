@@ -1,0 +1,42 @@
+USE CASE: "Check string at position" - a function in Primo BO.
+
+EXAMPLE RECORD: A DC record contains the following elements.
+
+<record>
+<identifier>University of X</identifier>
+<identifier>V2345</identifier>
+<identifier>1V345</identifier>
+<identifier>12V45</identifier>
+<identifier>123V5</identifier>
+<identifier>123v5</identifier>
+<identifier>1234V</identifier>
+</record>
+
+USING EITHER OF THESE RULES:
+
+**********************************
+rule "Check string at position 4 - case sensitive"
+when
+	exist "//*[local-name()='identifier'][contains(substring(., 4, 1), 'v')]"
+	exist "//*[local-name()='identifier'][contains(substring(., 4, 1), 'V')]"
+then
+	copy  "//*[local-name()='identifier'][contains(substring(., 4, 1), 'v')]" to "dc"."identifier"
+	copy  "//*[local-name()='identifier'][contains(substring(., 4, 1), 'V')]" to "dc"."identifier"
+end
+
+**********************************
+rule "Check string at position 4 - another way of ignoring case sensitivity"
+when
+	exist "//*[local-name()='identifier'][contains(translate(substring(., 4, 1), 'v', 'V'), 'V')]"
+then
+   	copy  "//*[local-name()='identifier'][contains(translate(substring(., 4, 1), 'v', 'V'), 'V')]" to "dc"."identifier"
+end
+**********************************
+
+WILL RETURN:
+
+<dc:identifier>University of X</dc:identifier>
+<dc:identifier>123V5</dc:identifier>
+<dc:identifier>123v5</dc:identifier>
+	
+*This rule was contributed by [mwan-work](https://github.com/mwan-work) through the following issue: https://github.com/primousers/primo-ve-norm/issues/16
